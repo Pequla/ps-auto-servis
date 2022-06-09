@@ -1,5 +1,6 @@
 package rs.ac.singidunum.autoservis.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +21,13 @@ public class WorkOrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "item_id", nullable = false)
     private InventoryItem item;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "work_order_id", nullable = false)
+    @JsonIgnore
     private WorkOrder order;
 
     @Column(nullable = false)
