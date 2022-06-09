@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<a href="/index.html">POCETNA STRANA</a> | <a href="/app/customer/list.html">LISTA KLIJENATA</a> | <a href="/app/vehicle/list.html">LISTA VOZILA</a> | <a href="/app/user/account.html">NALOG</a>
+<h1>Please login</h1>
+<label for="email">Email</label>
+<input type="email" id="email" name="email">
+<label for="password">Password</label>
+<input type="password" id="password" name="password">
+<button type="button" id="login-button">Submit</button>
+<!--Scripts-->
+<script src="../../js/main.js"></script>
+<script>
+    document.getElementById("login-button").addEventListener("click", login);
+    window.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') login();
+    });
+</script>
+</body>
+</html>

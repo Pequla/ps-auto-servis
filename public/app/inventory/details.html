@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Aplikacija za upravljanje auto servisom">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podaci o stavci :: AutoServis</title>
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+</head>
+<body>
+<!--Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">AutoServis</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/index.html">Početna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/customer/list.html">Mušterije</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/vehicle/list.html">Vozila</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/inventory/list.html">Stanje</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/order/list.html">Radni Nalozi</a>
+                </li>
+                <li class="nav-item action-login">
+                    <a class="nav-link" href="/app/user/login.html?return=/index.html">Login</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/account.html">Nalog</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/logout.html">Odjavi se</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page"><a href="/index.html">Početna strana</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="/app/inventory/list.html">Stanje</a></li>
+            <li class="breadcrumb-item active" aria-current="page" id="nav-name">Stavka</li>
+        </ol>
+    </nav>
+    <h1>Podaci o stavci</h1>
+    <table class="table table-striped">
+        <tr>
+            <th><label for="id">ID</label></th>
+            <th><input type="number" id="id" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th><label for="name">IME</label></th>
+            <th><input type="text" id="name" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th><label for="oem">OEM BROJ</label></th>
+            <th><input type="text" id="oem" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th><label for="available">DOSTUPNA KOLICINA</label></th>
+            <th><input type="number" id="available" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th><label for="price">CENA U DINARIMA</label></th>
+            <th><input type="number" id="price" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th>AKCIJE</th>
+            <th>
+                <button id="load" class="btn btn-primary">UČITAJ</button>
+                <button id="save" class="btn btn-primary">DODAJ</button>
+                <button id="update" class="btn btn-primary">SAČUVAJ IZMENE</button>
+                <button id="delete" class="btn btn-danger">OBRIŠI</button>
+            </th>
+        </tr>
+    </table>
+</div>
+
+<script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    const url = new URL(window.location.href);
+    getInventoryItemForId(url.searchParams.get("id")).then(data => {
+        document.getElementById("id").value = data.id;
+        document.getElementById("nav-name").innerText = data.name;
+        document.getElementById("name").value = data.name;
+        document.getElementById("oem").value = data.oem;
+        document.getElementById("available").value = data.available;
+        document.getElementById("price").value = data.price;
+    }).catch(e => alertError(e));
+
+    document.getElementById("load").addEventListener("click", function () {
+        // Loading from id
+        window.location.href = "?id=" + document.getElementById("id").value;
+    });
+
+    document.getElementById("save").addEventListener("click", function () {
+        saveInventoryItem(collectData())
+            .then(data => window.location.href = "?id=" + data.id)
+            .catch(e => alertError(e));
+    });
+
+    document.getElementById("update").addEventListener("click", function () {
+        const json = collectData();
+        updateInventoryItem(json.id, json)
+            .then(data => window.location.href = "?id=" + data.id)
+            .catch(e => alertError(e));
+    });
+
+    document.getElementById("delete").addEventListener("click", function () {
+        deleteInventoryItem(document.getElementById("id").value);
+    });
+
+    function collectData() {
+        // Saving a new value
+        return {
+            "id": document.getElementById("id").value,
+            "name": document.getElementById("name").value,
+            "oem": document.getElementById("oem").value,
+            "available": document.getElementById("available").value,
+            "price": document.getElementById("price").value
+        }
+    }
+</script>
+</body>
+</html>

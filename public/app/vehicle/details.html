@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Podaci o vozilu</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<a href="/index.html">POCETNA STRANA</a> | <a href="/app/customer/list.html">LISTA KLIJENATA</a> | <a
+        href="/app/vehicle/list.html">LISTA VOZILA</a> | <a href="/app/user/account.html">NALOG</a>
+<h1>Podaci o motornom vozilu</h1>
+<table>
+    <tr>
+        <th>BROJ SASIJE</th>
+        <th id="vin"></th>
+    </tr>
+    <tr>
+        <th>REGISTARSKA OZNAKA</th>
+        <th id="reg"></th>
+    </tr>
+    <tr>
+        <th>MODEL</th>
+        <th id="model"></th>
+    </tr>
+    <tr>
+        <th>PROIZVODJAC</th>
+        <th id="manufacturer"></th>
+    </tr>
+    <tr>
+        <th>MOTOR</th>
+        <th id="engine"></th>
+    </tr>
+    <tr>
+        <th>KUBIKAZA (u cm<sup>3</sup>)</th>
+        <th id="cc"></th>
+    </tr>
+    <tr>
+        <th>SNAGA (u kW)</th>
+        <th id="power"></th>
+    </tr>
+    <tr>
+        <th>PROIZVODJAC MOTORA</th>
+        <th id="engine-manufacturer"></th>
+    </tr>
+    <tr>
+        <th>TIP GORIVA</th>
+        <th id="fuel"></th>
+    </tr>
+    <tr>
+        <th>TIP MENJACA</th>
+        <th id="transmission"></th>
+    </tr>
+    <tr>
+        <th>BROJ BRZINA</th>
+        <th id="gear-count"></th>
+    </tr>
+    <tr>
+        <th>GODINA PROIZVODNJE</th>
+        <th id="year"></th>
+    </tr>
+    <tr>
+        <th>IME VLASNIKA</th>
+        <th id="owner-name"></th>
+    </tr>
+    <tr>
+        <th>ADRESA VLASNIKA</th>
+        <th id="owner-address"></th>
+    </tr>
+    <tr>
+        <th>VISE O VLASNIKU</th>
+        <th><a href="#" id="owner-details">Detaljnije</a></th>
+    </tr>
+</table>
+
+<h3>Tabelarni prikaz radnih naloga</h3>
+<table id="order-table">
+    <tr>
+        <th>ID</th>
+        <th>STATUS</th>
+        <th>OPIS</th>
+        <th>KREIRANO DANA</th>
+        <th>POSLEDNJA IZMENA</th>
+        <th>VISE</th>
+    </tr>
+</table>
+<template id="order-template">
+    <tr>
+        <th class="order-id"></th>
+        <th class="order-status"></th>
+        <th class="order-desc"></th>
+        <th class="order-created"></th>
+        <th class="order-updated"></th>
+        <th>
+            <a href="#" class="order-details">Detaljnije</a>
+        </th>
+    </tr>
+</template>
+<script src="/js/main.js"></script>
+<script>
+    const url = new URL(window.location.href);
+    getVehicleForId(url.searchParams.get("id")).then(data => {
+        document.getElementById("vin").innerText = data.vin;
+        document.getElementById("reg").innerText = data.registrationNumber;
+        document.getElementById("model").innerText = data.model.name;
+        document.getElementById("manufacturer").innerText = data.model.manufacturer.name;
+        document.getElementById("engine").innerText = data.model.engine.name;
+        document.getElementById("cc").innerText = data.model.engine.cc;
+        document.getElementById("power").innerText = data.model.engine.power;
+        document.getElementById("engine-manufacturer").innerText = data.model.engine.manufacturer.name;
+        document.getElementById("fuel").innerText = data.model.engine.fuel.name;
+        document.getElementById("transmission").innerText = data.model.transmission.type;
+        document.getElementById("gear-count").innerText = data.model.gearCount;
+        document.getElementById("year").innerText = data.year;
+        document.getElementById("owner-name").innerText = data.customer.name;
+        document.getElementById("owner-address").innerText = data.customer.address;
+        document.getElementById("owner-details").href = "/app/customer/details.html?id=" + data.customer.id;
+
+        // Generating work order table
+        const table = document.getElementById("order-table")
+        const template = document.getElementById("order-template");
+        getWorkOrderListForVehicle(data.id).then(data => {
+            data.forEach(order => {
+                const copy = template.content.cloneNode(true);
+                copy.querySelector(".order-id").innerText = order.id;
+                copy.querySelector(".order-status").innerText = order.status.name;
+                copy.querySelector(".order-desc").innerText = order.description;
+                copy.querySelector(".order-created").innerText = order.createdAt;
+                copy.querySelector(".order-updated").innerText = order.updatedAt;
+                copy.querySelector(".order-details").href = "/app/order/details.html?id=" + order.id
+                table.appendChild(copy);
+            })
+        }).catch(e => alertError(e));
+    }).catch(e => alertError(e));
+</script>
+</body>
+</html>

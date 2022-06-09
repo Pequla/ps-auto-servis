@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista motornih vozila</title>
+    <meta http-equiv="refresh" content="4">
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+<a href="/index.html">POCETNA STRANA</a> | <a href="/app/customer/list.html">LISTA KLIJENATA</a> | <a href="/app/vehicle/list.html">LISTA VOZILA</a> | <a href="/app/user/account.html">NALOG</a>
+<h1>Tabelarni prikaz motornih vozila</h1>
+<table id="vehicle-table">
+    <tr>
+        <th>ID</th>
+        <th>Broj sasije</th>
+        <th>Broj reg. tablica</th>
+        <th>Model</th>
+        <th>Motor</th>
+        <th>Proizvodjac</th>
+        <th>Godiste</th>
+        <th>Saznaj vise</th>
+    </tr>
+</table>
+<template id="vehicle-template">
+    <tr>
+        <th class="vehicle-id"></th>
+        <th class="vehicle-vin"></th>
+        <th class="vehicle-reg-plate"></th>
+        <th class="vehicle-model"></th>
+        <th class="vehicle-engine"></th>
+        <th class="vehicle-manufacturer"></th>
+        <th class="vehicle-year"></th>
+        <th>
+            <a href="#" class="vehicle-details">Detaljnije</a>
+        </th>
+    </tr>
+</template>
+
+<script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    const table = document.getElementById("vehicle-table")
+    const template = document.getElementById("vehicle-template");
+    getVehicleList().then(data => {
+        data.forEach(vehicle => {
+            const copy = template.content.cloneNode(true);
+            copy.querySelector(".vehicle-id").innerText = vehicle.id;
+            copy.querySelector(".vehicle-vin").innerText = vehicle.vin;
+            copy.querySelector(".vehicle-reg-plate").innerText = vehicle.registrationNumber;
+            copy.querySelector(".vehicle-model").innerText = vehicle.model.name;
+            copy.querySelector(".vehicle-engine").innerText = vehicle.model.engine.name;
+            copy.querySelector(".vehicle-manufacturer").innerText = vehicle.model.manufacturer.name;
+            copy.querySelector(".vehicle-year").innerText = vehicle.year;
+            copy.querySelector(".vehicle-details").href = "/app/vehicle/details.html?id=" + vehicle.id
+            table.appendChild(copy);
+        })
+    });
+</script>
+</body>
+</html>

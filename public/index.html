@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="sr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Aplikacija za upravljanje auto servisom">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Početna :: AutoServis</title>
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+</head>
+
+<body>
+<!--Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">AutoServis</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Početna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/customer/list.html">Mušterije</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/vehicle/list.html">Vozila</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/inventory/list.html">Stanje</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/order/list.html">Radni Nalozi</a>
+                </li>
+                <li class="nav-item action-login">
+                    <a class="nav-link" href="/app/user/login.html?return=/index.html">Login</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/account.html">Nalog</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/logout.html">Odjavi se</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <input class="form-control me-2" type="text" placeholder="Broj šasije" name="vin" id="vin">
+                <button class="btn btn-outline-success" type="submit" id="check-status">Proveri</button>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Početna strana</li>
+        </ol>
+    </nav>
+    <h1>Aplikacija za upravljanje auto servisom</h1>
+    <p class="text-start">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla, eros eleifend
+        egestas laoreet, nisi turpis bibendum nisi, a elementum risus erat sit amet magna. Aenean lectus lacus,
+        condimentum vitae consectetur faucibus, venenatis pulvinar odio. Quisque sagittis ac metus eu gravida.
+        Vestibulum at finibus eros. Curabitur commodo eget dolor ac consectetur. Vestibulum hendrerit scelerisque tortor
+        quis commodo. Cras accumsan nunc eget mauris posuere euismod. Etiam sit amet metus nisl. Proin nec orci massa.
+        Cras egestas, tellus sit amet fringilla dapibus, ante nunc porta odio, vitae venenatis justo dui ut lorem.
+    </p>
+    <p class="text-start">
+        Aliquam erat volutpat. Morbi accumsan vulputate tellus ac auctor. Donec risus nisl, rutrum sit amet iaculis sed,
+        eleifend nec sem. Aenean mattis arcu sed urna ultrices, in malesuada tellus malesuada. Quisque orci ex,
+        venenatis non mi in, imperdiet venenatis nisi. Mauris vel finibus dui, eu iaculis nibh. Morbi egestas turpis sed
+        ultricies maximus. Donec tristique nibh quis lorem pulvinar tempor. Praesent quis sapien dui. Duis et tellus
+        quis nisl tempor feugiat. Quisque hendrerit pretium urna faucibus semper. Fusce viverra leo ornare turpis
+        interdum, id efficitur ligula consectetur. Pellentesque justo diam, venenatis id turpis a, aliquam facilisis
+        ante. Aenean tincidunt sollicitudin vehicula. Donec tellus tortor, convallis in consectetur a, molestie sed
+        odio. Aenean lobortis sem ex.
+    </p>
+    <p class="text-start">
+        Aenean non posuere nisl. Aenean sodales sed orci vel pharetra. Suspendisse eget pellentesque mauris, sed lacinia
+        orci. Praesent tempus ullamcorper ante, id pretium libero vestibulum vel. Maecenas sapien enim, aliquam ut felis
+        non, facilisis consequat lectus. Integer feugiat rhoncus mi quis faucibus. Curabitur viverra ante magna, in
+        faucibus eros tincidunt eu. Nam tortor urna, aliquet et urna eget, dictum egestas nibh. Etiam vitae condimentum
+        augue. Vestibulum et tellus id tellus convallis fringilla dignissim eget libero. Quisque id tortor in diam
+        auctor pulvinar.
+    </p>
+</div>
+<script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    document.getElementById("check-status").addEventListener("click", function () {
+        const vin = document.getElementById("vin").value;
+        window.location.href = "/vehicle.html?vin=" + vin;
+    })
+</script>
+</body>
+
+</html>

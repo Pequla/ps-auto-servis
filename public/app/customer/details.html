@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Aplikacija za upravljanje auto servisom">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podaci o mušteriji :: AutoServis</title>
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+</head>
+<body>
+<!--Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">AutoServis</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/index.html">Početna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/customer/list.html">Mušterije</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/vehicle/list.html">Vozila</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/inventory/list.html">Stanje</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/order/list.html">Radni Nalozi</a>
+                </li>
+                <li class="nav-item action-login">
+                    <a class="nav-link" href="/app/user/login.html?return=/index.html">Login</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/account.html">Nalog</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/logout.html">Odjavi se</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page"><a href="/index.html">Početna strana</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="/app/customer/list.html">Mušterije</a></li>
+            <li class="breadcrumb-item active" aria-current="page" id="nav-name">Ime</li>
+        </ol>
+    </nav>
+    <h1>Podaci o mušteriji</h1>
+    <table class="table table-striped">
+        <tr>
+            <th><label for="id">ID</label></th>
+            <th><input type="number" name="id" id="id" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th><label for="name">IME</label></th>
+            <th><input type="text" name="name" id="name" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th><label for="mb">MATICNI BROJ</label></th>
+            <th><input type="number" name="mb" id="mb" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th><label for="pib">PIB</label></th>
+            <th><input type="number" name="pib" id="pib" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th><label for="address">ADRESA</label></th>
+            <th><input type="text" name="address" id="address" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th><label for="phone">TELEFON</label></th>
+            <th><input type="tel" name="phone" id="phone" class="w-100 form-control"></th>
+        </tr>
+        <tr>
+            <th>DODAT U SISTEM</th>
+            <th id="created"></th>
+        </tr>
+        <tr>
+            <th>POSLEDNJA IZMENA</th>
+            <th id="updated"></th>
+        </tr>
+        <tr>
+            <th>AKCIJE</th>
+            <th>
+                <button id="load" class="btn btn-primary">UČITAJ</button>
+                <button id="save" class="btn btn-primary">DODAJ</button>
+                <button id="update" class="btn btn-primary">SAČUVAJ IZMENE</button>
+                <button id="delete" class="btn btn-danger">OBRIŠI</button>
+            </th>
+        </tr>
+    </table>
+
+    <h3>Tabelarni prikaz motornih vozila</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">BROJ ŠASIJE</th>
+            <th scope="col">BROJ REG. TABLICA</th>
+            <th scope="col">MODEL</th>
+            <th scope="col">MOTOR</th>
+            <th scope="col">PROIZVODJAČ</th>
+            <th scope="col">GODIŠTE</th>
+            <th scope="col">DODATNO</th>
+        </tr>
+        </thead>
+        <tbody id="vehicle-table"></tbody>
+    </table>
+</div>
+
+<template id="vehicle-template">
+    <tr>
+        <th scope="row" class="vehicle-id"></th>
+        <th class="vehicle-vin"></th>
+        <th class="vehicle-reg-plate"></th>
+        <th class="vehicle-model"></th>
+        <th class="vehicle-engine"></th>
+        <th class="vehicle-manufacturer"></th>
+        <th class="vehicle-year"></th>
+        <th>
+            <a href="#" class="vehicle-details">Detaljnije</a>
+        </th>
+    </tr>
+</template>
+
+<script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    const url = new URL(window.location.href);
+    const customerId = url.searchParams.get("id");
+    getCustomerForId(customerId).then(data => {
+        document.getElementById("id").value = data.id;
+        document.getElementById("nav-name").innerText = data.name;
+        document.getElementById("name").value = data.name;
+        document.getElementById("mb").value = data.identificationNumber;
+        document.getElementById("pib").value = data.taxId
+        document.getElementById("address").value = data.address;
+        document.getElementById("phone").value = data.phone;
+        document.getElementById("created").innerText = new Date(data.createdAt).toDateString();
+        document.getElementById("updated").innerText = new Date(data.updatedAt).toDateString();
+    }).catch(e => alertError(e));
+
+    const table = document.getElementById("vehicle-table")
+    const template = document.getElementById("vehicle-template");
+    getVehicleListByCustomerId(customerId).then(data => {
+        data.forEach(vehicle => {
+            const copy = template.content.cloneNode(true);
+            copy.querySelector(".vehicle-id").innerText = vehicle.id;
+            copy.querySelector(".vehicle-vin").innerText = vehicle.vin;
+            copy.querySelector(".vehicle-reg-plate").innerText = vehicle.registrationNumber;
+            copy.querySelector(".vehicle-model").innerText = vehicle.model.name;
+            copy.querySelector(".vehicle-engine").innerText = vehicle.model.engine.name;
+            copy.querySelector(".vehicle-manufacturer").innerText = vehicle.model.manufacturer.name;
+            copy.querySelector(".vehicle-year").innerText = vehicle.year;
+            copy.querySelector(".vehicle-details").href = "/app/vehicle/details.html?id=" + vehicle.id
+            table.appendChild(copy);
+        })
+    }).catch(e => alertError(e));
+
+    document.getElementById("load").addEventListener("click", function () {
+        // Loading from id
+        window.location.href = "?id=" + document.getElementById("id").value;
+    });
+
+    document.getElementById("save").addEventListener("click", function () {
+        saveCustomer(collectData())
+            .then(data => window.location.href = "?id=" + data.id)
+            .catch(e => alertError(e));
+    });
+
+    document.getElementById("update").addEventListener("click", function () {
+        const json = collectData();
+        updateCustomer(json.id, json)
+            .then(data => window.location.href = "?id=" + data.id)
+            .catch(e => alertError(e));
+    });
+
+    document.getElementById("delete").addEventListener("click", function () {
+        deleteCustomer(document.getElementById("id").value);
+    });
+
+    function collectData() {
+        // Saving a new value
+        return {
+            "id": document.getElementById("id").value,
+            "name": document.getElementById("name").value,
+            "identificationNumber": document.getElementById("mb").value,
+            "taxId": document.getElementById("pib").value,
+            "address": document.getElementById("address").value,
+            "phone": document.getElementById("phone").value
+        }
+    }
+</script>
+</body>
+</html>
