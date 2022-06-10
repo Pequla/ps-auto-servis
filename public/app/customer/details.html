@@ -146,8 +146,8 @@
         document.getElementById("pib").value = data.taxId
         document.getElementById("address").value = data.address;
         document.getElementById("phone").value = data.phone;
-        document.getElementById("created").innerText = new Date(data.createdAt).toDateString();
-        document.getElementById("updated").innerText = new Date(data.updatedAt).toDateString();
+        document.getElementById("created").innerText = formatDate(data.createdAt);
+        document.getElementById("updated").innerText = formatDate(data.updatedAt);
     }).catch(e => alertError(e));
 
     const table = document.getElementById("vehicle-table")

@@ -129,8 +129,8 @@
             copy.querySelector(".order-id").innerText = order.id;
             copy.querySelector(".order-status").innerText = order.status.name;
             copy.querySelector(".order-desc").innerText = order.description;
-            copy.querySelector(".order-created").innerText = new Date(order.createdAt).toLocaleDateString();
-            copy.querySelector(".order-updated").innerText = new Date(order.updatedAt).toLocaleDateString();
+            copy.querySelector(".order-created").innerText = formatDate(order.createdAt);
+            copy.querySelector(".order-updated").innerText = formatDate(order.updatedAt);
             table.appendChild(copy);
         })
 

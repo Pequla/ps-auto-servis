@@ -1,18 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="description" content="Aplikacija za upravljanje auto servisom">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login :: AutoServis</title>
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 </head>
 <body>
-<a href="/index.html">POCETNA STRANA</a> | <a href="/app/customer/list.html">LISTA KLIJENATA</a> | <a href="/app/vehicle/list.html">LISTA VOZILA</a> | <a href="/app/user/account.html">NALOG</a>
-<h1>Please login</h1>
-<label for="email">Email</label>
-<input type="email" id="email" name="email">
-<label for="password">Password</label>
-<input type="password" id="password" name="password">
-<button type="button" id="login-button">Submit</button>
+<!--Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">AutoServis</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/index.html">Početna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/customer/list.html">Mušterije</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/vehicle/list.html">Vozila</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/inventory/list.html">Stanje</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/order/list.html">Radni Nalozi</a>
+                </li>
+                <li class="nav-item action-login">
+                    <a class="nav-link active" href="/app/user/login.html?return=/index.html">Login</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/account.html">Nalog</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/logout.html">Odjavi se</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page"><a href="/index.html">Početna strana</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="#">Nalog</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Login</li>
+        </ol>
+    </nav>
+    <h1>Unesite Vaše korisničke parametre</h1>
+    <form>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email adresa</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">Vaša poslovna email adresa</div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Ostavi me ulogovanog</label>
+        </div>
+        <button type="button" class="btn btn-primary" id="login-button">Pošalji</button>
+    </form>
+
+</div>
+
 <!--Scripts-->
+<script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../../js/main.js"></script>
 <script>
     document.getElementById("login-button").addEventListener("click", login);

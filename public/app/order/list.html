@@ -1,10 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="description" content="Aplikacija za upravljanje auto servisom">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista radnih naloga :: AutoServis</title>
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 </head>
 <body>
+<!--Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">AutoServis</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/index.html">Početna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/customer/list.html">Mušterije</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/vehicle/list.html">Vozila</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/inventory/list.html">Stanje</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/app/order/list.html">Radni Nalozi</a>
+                </li>
+                <li class="nav-item action-login">
+                    <a class="nav-link" href="/app/user/login.html?return=/index.html">Login</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/account.html">Nalog</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/logout.html">Odjavi se</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page"><a href="/index.html">Početna strana</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Radni nalozi</li>
+        </ol>
+    </nav>
+    <h1>Tabelarni prikaz radnih naloga</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">STATUS</th>
+            <th scope="col">KORISNIK</th>
+            <th scope="col">VOZILO</th>
+            <th scope="col">MUŠTERIJA</th>
+            <th scope="col">OTVOREN DANA</th>
+            <th scope="col">POSLEDNJA IZMENA</th>
+            <th scope="col">DODATNO</th>
+        </tr>
+        </thead>
+        <tbody id="order-table"></tbody>
+    </table>
+</div>
 
+<template id="order-template">
+    <tr>
+        <th class="order-id"></th>
+        <th class="order-status"></th>
+        <th class="order-user"></th>
+        <th class="order-vehicle"></th>
+        <th class="order-customer"></th>
+        <th class="order-created"></th>
+        <th class="order-updated"></th>
+        <th>
+            <button type="button" class="vehicle-details btn btn-secondary">O VOZILU</button>
+            <button type="button" class="order-details btn btn-primary">O NALOGU</button>
+        </th>
+    </tr>
+</template>
+
+<script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    const table = document.getElementById("order-table")
+    const template = document.getElementById("order-template");
+    getWorkOrderList().then(data => {
+        data.forEach(order => {
+            const copy = template.content.cloneNode(true);
+            copy.querySelector(".order-id").innerText = order.id;
+            copy.querySelector(".order-status").innerText = order.status.name;
+            copy.querySelector(".order-user").innerText = order.user.name;
+            copy.querySelector(".order-vehicle").innerText = order.vehicle.vin;
+            copy.querySelector(".order-customer").innerText = order.vehicle.customer.name;
+            copy.querySelector(".order-created").innerText = formatDate(order.createdAt);
+            copy.querySelector(".order-updated").innerText = formatDate(order.updatedAt);
+            copy.querySelector(".vehicle-details").addEventListener("click", function () {
+                window.location.href = "/app/vehicle/details.html?id=" + order.vehicle.id
+            });
+            copy.querySelector(".order-details").addEventListener("click", function () {
+                window.location.href = "/app/order/details.html?id=" + order.id;
+            });
+            table.appendChild(copy);
+        });
+    });
+</script>
 </body>
 </html>

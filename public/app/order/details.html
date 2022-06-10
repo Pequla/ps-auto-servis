@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Aplikacija za upravljanje auto servisom">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radni nalog :: AutoServis</title>
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+</head>
+<body>
+<!--Navigation-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">AutoServis</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/index.html">Početna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/customer/list.html">Mušterije</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/vehicle/list.html">Vozila</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/inventory/list.html">Stanje</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/app/order/list.html">Radni Nalozi</a>
+                </li>
+                <li class="nav-item action-login">
+                    <a class="nav-link" href="/app/user/login.html?return=/index.html">Login</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/account.html">Nalog</a>
+                </li>
+                <li class="nav-item action-logout" hidden>
+                    <a class="nav-link" href="/app/user/logout.html">Odjavi se</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page"><a href="/index.html">Početna strana</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="/app/order/list.html">Radni nalog</a></li>
+            <li class="breadcrumb-item active" aria-current="page" id="nav-id">ID</li>
+        </ol>
+    </nav>
+    <h1>Podaci o radnom nalogu</h1>
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th id="id"></th>
+        </tr>
+        <tr>
+            <th>STATUS</th>
+            <th id="status"></th>
+        </tr>
+        <tr>
+            <th>KORISNIK</th>
+            <th id="user"></th>
+        </tr>
+        <tr>
+            <th>VOZILO</th>
+            <th id="vehicle"></th>
+        </tr>
+        <tr>
+            <th>MUŠTERIJA</th>
+            <th id="customer"></th>
+        </tr>
+        <tr>
+            <th>OTVOREN DANA</th>
+            <th id="created"></th>
+        </tr>
+        <tr>
+            <th>POSLEDNJA IZMENA</th>
+            <th id="updated"></th>
+        </tr>
+        <tr>
+            <th>DODATNO</th>
+            <th>
+                <button id="client-details" class="btn btn-primary">KLIJENT</button>
+                <button id="vehicle-details" class="btn btn-primary">VOZILO</button>
+                <button id="link-for-client" class="btn btn-warning">LINK ZA KLIJENTA</button>
+            </th>
+        </tr>
+    </table>
+
+    <h3>Tabelarni prikaz stavki</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">OEM</th>
+            <th scope="col">IME</th>
+            <th scope="col">CENA</th>
+            <th scope="col">KOLICINA</th>
+            <th scope="col">POPUST</th>
+            <th scope="col">UKUPNO</th>
+            <th scope="col">DODATNO</th>
+        </tr>
+        </thead>
+        <tbody id="item-table"></tbody>
+    </table>
+    <h5 class="text-center">Ukupno: <span id="all-total">0</span> RSD</h5>
+</div>
+
+<template id="item-template">
+    <tr>
+        <th scope="row" class="item-id"></th>
+        <th class="item-oem"></th>
+        <th class="item-name"></th>
+        <th class="item-price"></th>
+        <th class="item-amount"></th>
+        <th class="item-discount"></th>
+        <th class="item-total"></th>
+        <th>
+            <button type="button" id="edit-item" class="btn btn-primary">IZMENI</button>
+            <button type="button" id="remove-item" class="btn btn-danger">OBRIŠI</button>
+        </th>
+    </tr>
+</template>
+
+<script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    // Getting query param and setting navigation
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get("id");
+    document.getElementById("nav-id").innerText = id;
+
+    getWorkOrderById(id).then(data => {
+        document.getElementById("id").innerText = data.id;
+        document.getElementById("status").innerText = data.status.name;
+        document.getElementById("user").innerText = data.user.name;
+        document.getElementById("vehicle").innerText = data.vehicle.vin;
+        document.getElementById("customer").innerText = data.vehicle.customer.name;
+        document.getElementById("created").innerText = formatDate(data.createdAt);
+        document.getElementById("updated").innerText = formatDate(data.updatedAt);
+        document.getElementById("client-details").addEventListener("click", function () {
+            window.location.href = "/app/customer/details.html?id=" + data.vehicle.customer.id;
+        });
+        document.getElementById("vehicle-details").addEventListener("click", function () {
+            window.location.href = "/app/vehicle/details.html?id=" + data.vehicle.id;
+        });
+        document.getElementById("link-for-client").addEventListener("click", function () {
+            const link = "https://localhost:9000/vehicle.html?vin=" + data.vehicle.vin;
+            navigator.clipboard.writeText(link);
+            alert("Link je kopiran")
+        });
+
+        // Listing all the work order items
+        let total = 0;
+        const table = document.getElementById("item-table")
+        const template = document.getElementById("item-template");
+        data.items.forEach(item => {
+            // <th scope="row" className="item-id"></th>
+            // <th className="item-oem"></th>
+            // <th className="item-name"></th>
+            // <th className="item-price"></th>
+            // <th className="item-amount"></th>
+            // <th className="item-discount"></th>
+            // <th className="item-total"></th>
+            const copy = template.content.cloneNode(true);
+            copy.querySelector(".item-id").innerText = item.id;
+            copy.querySelector(".item-oem").innerText = item.item.oem;
+            copy.querySelector(".item-name").innerText = item.item.name;
+            copy.querySelector(".item-price").innerText = item.item.price;
+            copy.querySelector(".item-amount").innerText = item.amount;
+            copy.querySelector(".item-discount").innerText = item.discount;
+            const itemTotal = (item.amount * item.item.price) * (1 - item.discount);
+            total = total + itemTotal;
+            copy.querySelector(".item-total").innerText = itemTotal.toFixed(2);
+            table.appendChild(copy);
+        });
+
+        // Upis totalnog iznosa
+        document.getElementById("all-total").innerText = total.toFixed(2);
+
+    }).catch(r => alertError(r));
+</script>
+</body>
+</html>

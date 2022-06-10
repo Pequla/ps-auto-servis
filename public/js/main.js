@@ -2,7 +2,7 @@ const baseUrl = "http://ps.pequla.com:8080/api"
 
 // Dynamic menu
 const session = window.localStorage.getItem("name");
-if (session) {
+if (session && !window.location.href.includes("logout.html")) {
     document.querySelectorAll(".action-logout").forEach(e => e.hidden = false);
     document.querySelectorAll(".action-login").forEach(e => e.hidden = true);
 }
@@ -10,6 +10,17 @@ if (session) {
 function alertError(e) {
     alert(e);
     window.location.href = `/index.html?from=${window.location.href}&reason=${e.message}`;
+}
+
+function formatDate(str) {
+    const date = new Date(str);
+    return ` ${pad(date.getHours(), 2)}:${pad(date.getMinutes(), 2)} ${date.getDay()}.${date.getMonth()}.${date.getFullYear()}.`
+}
+
+function pad(n, width, z) {
+    z = z || '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
 function login() {
@@ -60,7 +71,7 @@ function getSelfUser() {
         }
     }).then(rsp => {
         if (rsp.ok) return rsp.json();
-        throw new Error("Self user data retrieval failed");
+        throw new Error("Failed retrieving user data");
     });
 }
 
@@ -301,4 +312,26 @@ async function getWorkOrderListForVehicleVin(vin) {
         }
     });
     return handleResponse(rsp, "Podaci za vozilo nisu pronadjeni");
+}
+
+async function getWorkOrderList() {
+    const rsp = await fetch(baseUrl + "/order", {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + window.localStorage.getItem("access")
+        }
+    });
+    return handleResponse(rsp, "Podaci za radni nalog nisu pronadjeni");
+}
+
+async function getWorkOrderById(id) {
+    const rsp = await fetch(baseUrl + "/order/" + id, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + window.localStorage.getItem("access")
+        }
+    });
+    return handleResponse(rsp, "Podaci za radni nalog nisu pronadjeni");
 }
