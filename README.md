@@ -1,9 +1,14 @@
 # ps-auto-servis
 Ispitni zadatak iz predmeta Projektovanje softvera na temu Aplikacija za upravljanje auto servisom
 
+Članovi tima:
+- [Marko Savić - 2020202977 IR](https://github.com/markosavicmidusa)
+- [Jana Savić - 2019202695 IR](https://github.com/janasavic)
+- [Petar Kresoja - 2019200948 IR](https://github.com/Pequla)
+
 ## Pokretanje aplikacije
 
-Aplikacija je dostupna online na nadresi https://ps.pequla.com
+Aplikacija je dostupna online na adresi http://ps.pequla.com
 
 ### Lokalno okruženje
 
@@ -141,3 +146,5 @@ Sadrzaj fajla
 sudo a2ensite autoservis.conf
 sudo systemctl restart apache2
 ```
+
+Sada posetite adresu servera na kojoj se nalazi aplikacija
