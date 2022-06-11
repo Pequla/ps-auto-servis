@@ -3,7 +3,6 @@ Ispitni zadatak iz predmeta Projektovanje softvera na temu Aplikacija za upravlj
 
 Članovi tima:
 - [Marko Savić - 2020202977 IR](https://github.com/markosavicmidusa)
-- [Jana Savić - 2019202695 IR](https://github.com/janasavic)
 - [Petar Kresoja - 2019200948 IR](https://github.com/Pequla)
 
 ## Pokretanje aplikacije

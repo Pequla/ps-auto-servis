@@ -1,6 +1,7 @@
 package rs.ac.singidunum.autoservis.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,6 +40,16 @@ public class UserService implements UserDetailsService {
     public AppUser createUser(CreateUserModel model, String secret) {
         if (!secret.equals(AppUtils.ACCOUNT_CREATION_SECRET)) {
             throw new RuntimeException("Bad secret");
+        }
+
+        // Password mora imati min 8 karaktera
+        if (model.getPassword().length() < 8) {
+            throw new RuntimeException("Password must have at least 8 chars");
+        }
+
+        // Email mora biti pravi email
+        if (!EmailValidator.getInstance().isValid(model.getEmail())) {
+            throw new RuntimeException("Email address not valid");
         }
 
         AppUser user = new AppUser();

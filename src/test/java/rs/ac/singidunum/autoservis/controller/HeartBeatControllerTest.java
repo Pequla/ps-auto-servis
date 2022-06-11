@@ -11,8 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HeartBeatControllerTest {
 
-    // UNIT TEST
-
+    /*
+    Jedinicno testiranje
+    Ocekivani odgovor: OK
+     */
     @Test
     void sendHeartbeat() {
        HeartBeatController controller = new HeartBeatController();
