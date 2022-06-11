@@ -1,4 +1,4 @@
-const baseUrl = "http://ps.pequla.com:8080/api"
+const baseUrl = "http://localhost:8080/api"
 
 // Dynamic menu
 const session = window.localStorage.getItem("name");
