@@ -1,3 +1,8 @@
+/*
+Komponenta: Pomoćna servisna klasa
+Autor : Petar Kresoja
+Datum poslednje izmene: 10.06.2022.
+*/
 const baseUrl = "http://localhost:8080/api"
 
 // Dynamic menu
@@ -14,7 +19,8 @@ function alertError(e) {
 
 function formatDate(str) {
     const date = new Date(str);
-    return ` ${pad(date.getHours(), 2)}:${pad(date.getMinutes(), 2)} ${date.getDay()}.${date.getMonth()}.${date.getFullYear()}.`
+    return ` ${pad(date.getHours(), 2)}:${pad(date.getMinutes(), 2)} 
+    ${date.getDay()}.${date.getMonth()}.${date.getFullYear()}.`
 }
 
 function pad(n, width, z) {

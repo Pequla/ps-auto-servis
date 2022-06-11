@@ -345,7 +345,7 @@ CREATE TABLE `user` (
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `uq_user_email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -354,7 +354,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'petar@kresoja.net','Petar Kresoja','$2a$10$3WzJEIXLXSV1wZDz.pljN.btmdy0Cow5bvnzpbcFA.5lfGfkbsQDK',NULL,'2022-06-02 19:40:24','2022-06-02 21:40:27'),(2,'marko@localhost','Marko Savić','$2a$10$T4Ce.qszJF1kmtJgb6f2weYxRggL2KC952TqnE2HpNQDc2Y1fTgpu',NULL,'2022-06-09 20:30:42','2022-06-09 20:30:42');
+INSERT INTO `user` VALUES (1,'petar@kresoja.net','Petar Kresoja','$2a$10$3WzJEIXLXSV1wZDz.pljN.btmdy0Cow5bvnzpbcFA.5lfGfkbsQDK',NULL,'2022-06-02 19:40:24','2022-06-02 21:40:27'),(2,'marko@localhost','Marko Savić','$2a$10$T4Ce.qszJF1kmtJgb6f2weYxRggL2KC952TqnE2HpNQDc2Y1fTgpu',NULL,'2022-06-09 20:30:42','2022-06-09 20:30:42'),(4,'vitomasevic@singidunum.ac.rs','Violeta Tomašević','$2a$10$J4FMuloT1NzoX.VqOjnqZOxPptpqGnnRIb6BL9kLwVdbTXLtnqDV6',NULL,'2022-06-11 20:57:48','2022-06-11 20:57:48'),(5,'pjakic@singidunum.ac.rs','Petar Jakić','$2a$10$0U1juVLBJb82Pxc4or/JleZWI1vIoganWWGnKYPCraqdjrI.0nClK',NULL,'2022-06-11 20:58:47','2022-06-11 20:58:48');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -374,7 +374,7 @@ CREATE TABLE `user_role` (
   KEY `fk_ur_role_idx` (`role_id`),
   CONSTRAINT `fk_ur_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_ur_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -383,7 +383,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES (1,1,2),(2,2,2);
+INSERT INTO `user_role` VALUES (1,1,2),(2,2,2),(3,1,1),(4,4,2),(5,5,2);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -507,4 +507,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-10 15:05:34
+-- Dump completed on 2022-06-11 23:13:19
