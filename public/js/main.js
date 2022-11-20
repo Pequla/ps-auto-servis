@@ -3,7 +3,7 @@ Komponenta: Pomoćna servisna klasa
 Autor : Petar Kresoja
 Datum poslednje izmene: 10.06.2022.
 */
-const baseUrl = "http://localhost:8080/api"
+const baseUrl = "https://ps.pequla.com/api"
 
 // Dynamic menu
 const session = window.localStorage.getItem("name");
